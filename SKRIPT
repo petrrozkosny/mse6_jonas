@@ -1,0 +1,1 @@
+srazky_vloni:=CALCULATE(SUM(meteo1[srazky]);FILTER(ALL(meteo1[rok]);meteo1[rok]<=MAX(meteo1[rok])))
