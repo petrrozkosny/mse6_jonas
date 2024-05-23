@@ -3,3 +3,12 @@ FILTER(data;
 data[srazky] = 
 MAXX(FILTER(data;data[lokalita] = "RUZYNE"||data[lokalita] = "MOSNOV");data[srazky])
 && (data[lokalita] = "RUZYNE" || data[lokalita] = "MOSNOV"));data[lokalita];", ")
+
+
+__________________________
+
+12 lokalita max srazek ruzyne nebo mosnov unikatne:=VAR max_srazky = MAXX(FILTER(data;data[lokalita] = "RUZYNE" || data[lokalita] = "MOSNOV");data[srazky])
+
+VAR lokality = CALCULATETABLE(DISTINCT(data[lokalita]);FILTER(data;(data[lokalita] = "RUZYNE" || data[lokalita] = "MOSNOV") && data[srazky] = max_srazky))
+RETURN
+CONCATENATEX(lokality;data[lokalita];", ")
