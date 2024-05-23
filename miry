@@ -1,0 +1,5 @@
+11 lokalita max srazek ruzyne nebo mosnov:=CONCATENATEX(
+FILTER(data;
+data[srazky] = 
+MAXX(FILTER(data;data[lokalita] = "RUZYNE"||data[lokalita] = "MOSNOV");data[srazky])
+&& (data[lokalita] = "RUZYNE" || data[lokalita] = "MOSNOV"));data[lokalita];", ")
