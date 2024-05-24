@@ -1,6 +1,10 @@
-lokalita max srazek:=VAR _tabulka =
-ADDCOLUMNS(ALL(data[lokalita]);"mesicni srazky";CALCULATE(SUM(data[srazky])))
+rank sraze v roce:=VAR _tabulka = 
+ADDCOLUMNS(
+ALL(data[lokalita]);
+"rocni srazky";
+CALCULATE(SUM(data[srazky])))
 
-VAR _max_srazky = MAXX(_tabulka;[mesicni srazky])
+VAR _rank = ADDCOLUMNS(_tabulka;"rank";RANKX(_tabulka;[rocni srazky]))
 
-RETURN CONCATENATEX(FILTER(_tabulka;[mesicni srazky] = _max_srazky);data[lokalita];", ")
+RETURN
+MAXX(FILTER(_rank;data[lokalita] = MAX(data[lokalita]));[rank])
