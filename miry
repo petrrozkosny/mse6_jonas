@@ -1,14 +1,6 @@
-11 lokalita max srazek ruzyne nebo mosnov:=CONCATENATEX(
-FILTER(data;
-data[srazky] = 
-MAXX(FILTER(data;data[lokalita] = "RUZYNE"||data[lokalita] = "MOSNOV");data[srazky])
-&& (data[lokalita] = "RUZYNE" || data[lokalita] = "MOSNOV"));data[lokalita];", ")
+lokalita max srazek:=VAR _tabulka =
+ADDCOLUMNS(ALL(data[lokalita]);"mesicni srazky";CALCULATE(SUM(data[srazky])))
 
+VAR _max_srazky = MAXX(_tabulka;[mesicni srazky])
 
-__________________________
-
-12 lokalita max srazek ruzyne nebo mosnov unikatne:=VAR max_srazky = MAXX(FILTER(data;data[lokalita] = "RUZYNE" || data[lokalita] = "MOSNOV");data[srazky])
-
-VAR lokality = CALCULATETABLE(DISTINCT(data[lokalita]);FILTER(data;(data[lokalita] = "RUZYNE" || data[lokalita] = "MOSNOV") && data[srazky] = max_srazky))
-RETURN
-CONCATENATEX(lokality;data[lokalita];", ")
+RETURN CONCATENATEX(FILTER(_tabulka;[mesicni srazky] = _max_srazky);data[lokalita];", ")
